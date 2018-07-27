@@ -1,4 +1,3 @@
-FamiliesShowView
 import Bn from 'backbone';
 import Mn from 'backbone.marionette';
 import moment from 'moment';
