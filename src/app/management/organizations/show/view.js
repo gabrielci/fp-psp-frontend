@@ -5,7 +5,6 @@ import 'datatables.net-bs';
 import Template from './template.hbs';
 import FamiliesView from './families/index/layout-view';
 import UsersView from '../../users/view';
-import UnderConstrucionTemplate from '../../../utils/under_construction_template.hbs';
 import storage from '../storage';
 import usersStorage from '../../users/storage';
 import ActivityFeed from '../activities/collection';
@@ -145,11 +144,6 @@ export default Mn.View.extend({
       return this.$el.html('');
       // return UnderConstrucionTemplate;
     }
-    if (this.entity === 'indicators') {
-      // return IndicatorsTemplate;
-      return UnderConstrucionTemplate;
-    }
-
     return Template;
   },
   serializeData() {

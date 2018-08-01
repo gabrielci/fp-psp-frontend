@@ -4,22 +4,21 @@ import moment from 'moment';
 import $ from 'jquery';
 import Template from '../template.hbs';
 import SnapshotsTemplate from '../show/snapshot/template.hbs';
-import UnderConstrucionTemplate from '../../utils/under_construction_template.hbs';
 import storage from '../storage';
-import session from "../../../common/session";
-import ParameterModel from "../../parameter/model";
+import session from '../../../common/session';
+import ParameterModel from '../../parameter/model';
 
 export default Mn.View.extend({
   template: Template,
   events: {
     'click #newSurvey': 'newSurvey',
-    'click #set-priorities' : 'setPriorities'
+    'click #set-priorities': 'setPriorities'
   },
   initialize(options) {
     this.app = options.app;
     this.entity = options.entity;
     this.model = options.model;
-    if(this.app.getSession().attributes.user.application !== null) {
+    if (this.app.getSession().attributes.user.application !== null) {
       this.currentApplicationId = this.app.getSession().attributes.user.application.id;
     }
   },
@@ -35,7 +34,10 @@ export default Mn.View.extend({
         .addClass('subActive');
     }
 
-    if (session.userHasRole('ROLE_SURVEY_USER') && this.model.attributes.snapshot_indicators.survey_id) {
+    if (
+      session.userHasRole('ROLE_SURVEY_USER') &&
+      this.model.attributes.snapshot_indicators.survey_id
+    ) {
       this.$el.find('#newSurvey').show();
     }
 
@@ -47,10 +49,6 @@ export default Mn.View.extend({
     }
   },
   getTemplate() {
-    if (this.entity === 'interventions') {
-      // return InterventionsTemplate;
-      return UnderConstrucionTemplate;
-    }
     if (this.entity === 'snapshots') {
       return SnapshotsTemplate;
     }
@@ -73,7 +71,8 @@ export default Mn.View.extend({
     return moment(createdAt).format('YYYY-MM-DD');
   },
   isPrioritized() {
-    const isPrioritized = this.model.attributes.snapshot_indicators.indicators_priorities;
+    const isPrioritized = this.model.attributes.snapshot_indicators
+      .indicators_priorities;
     if (!isPrioritized) {
       return null;
     }
@@ -82,7 +81,9 @@ export default Mn.View.extend({
   getFormattedPlace() {
     if (this.model.get('city') || this.model.get('country')) {
       return `${this.model.get('city') ? this.model.get('city').city : ''} \
-        - ${this.model.get('country') ? this.model.get('country').country : ''}`;
+        - ${
+          this.model.get('country') ? this.model.get('country').country : ''
+        }`;
     }
     return null;
   },
@@ -106,17 +107,20 @@ export default Mn.View.extend({
     var currentApplicationId = this.currentApplicationId;
     event.preventDefault();
 
-    this.app.getSession().save({termCond: 0, priv: 0});
-    this.app.getSession().save({reAnswer: false, formData: null});
-    if(surveyId){
-      Bn.history.navigate(`/survey/${surveyId}/termcondpol/${currentApplicationId}`, true);
+    this.app.getSession().save({ termCond: 0, priv: 0 });
+    this.app.getSession().save({ reAnswer: false, formData: null });
+    if (surveyId) {
+      Bn.history.navigate(
+        `/survey/${surveyId}/termcondpol/${currentApplicationId}`,
+        true
+      );
     }
   },
-  getParameter(){
+  getParameter() {
     const self = this;
     this.parameterModel = new ParameterModel();
     this.parameterModel.fetch({
-      data: { keyParameter: 'maximum_time_since_snapshot'},
+      data: { keyParameter: 'maximum_time_since_snapshot' },
       success(response) {
         self.parameterModel = response.toJSON();
         self.validateParameter(self.parameterModel.value);
@@ -124,9 +128,14 @@ export default Mn.View.extend({
     });
   },
   validateParameter(parameter) {
-    var createdAt = moment(this.model.attributes.snapshot_indicators.created_at);
-    if(moment().diff(createdAt, 'days') < parameter) {
-      if (session.userHasRole('ROLE_SURVEY_USER') || session.userHasRole('ROLE_APP_ADMIN')) {
+    var createdAt = moment(
+      this.model.attributes.snapshot_indicators.created_at
+    );
+    if (moment().diff(createdAt, 'days') < parameter) {
+      if (
+        session.userHasRole('ROLE_SURVEY_USER') ||
+        session.userHasRole('ROLE_APP_ADMIN')
+      ) {
         $('#set-priorities').show();
       }
     }
@@ -134,7 +143,10 @@ export default Mn.View.extend({
   setPriorities() {
     Bn.history.navigate(
       `families/${this.model.attributes.id}/snapshots/
-      ${this.model.attributes.snapshot_indicators.snapshot_economic_id}/indicators`,
-      true);
+      ${
+        this.model.attributes.snapshot_indicators.snapshot_economic_id
+      }/indicators`,
+      true
+    );
   }
 });
