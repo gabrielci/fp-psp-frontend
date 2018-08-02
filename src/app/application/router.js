@@ -13,6 +13,7 @@ import snapshotsDraft from '../snapshots_drafts/routes';
 import reports from '../reports/routes';
 import management from '../management/routes';
 import map from '../map/routes';
+import users from '../users/routes';
 
 const initRouter = props => {
   const { app, before, onAccessDenied } = props;
@@ -29,7 +30,8 @@ const initRouter = props => {
     snapshotsDraft(props),
     reports(props),
     management(props),
-    map(props)
+    map(props),
+    users(props)
   );
   const authorizer = initAuthorizer({
     onAccessDenied,

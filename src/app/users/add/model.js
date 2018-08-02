@@ -1,10 +1,10 @@
 import Bn from 'backbone';
-import env from '../../../env';
+import env from '../../env';
 
 export default Bn.Model.extend({
   // urlRoot: `${env.API}/users/addUserRoleApplication`,
   urlRoot: `${env.API}/users`,
-  idAttribute: "userId",
+  idAttribute: 'userId',
   validate() {
     const errors = [];
 
@@ -35,13 +35,21 @@ export default Bn.Model.extend({
       return errors;
     }
 
-    if (this.isNew() && this.attributes.pass !== '' && this.attributes['password-confirm'] !== '' &&
-      this.attributes.pass !== this.attributes['password-confirm']) {
+    if (
+      this.isNew() &&
+      this.attributes.pass !== '' &&
+      this.attributes['password-confirm'] !== '' &&
+      this.attributes.pass !== this.attributes['password-confirm']
+    ) {
       errors.push(t('user.form.password-confirm-failed'));
       return errors;
     }
 
-    if (this.isNew() && !this.attributes.application && !this.attributes.organization) {
+    if (
+      this.isNew() &&
+      !this.attributes.application &&
+      !this.attributes.organization
+    ) {
       errors.push(t('user.form.select-organization-required'));
       return errors;
     }

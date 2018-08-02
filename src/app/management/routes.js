@@ -3,10 +3,6 @@ import ManagementView from './view';
 import ApplicationsView from './hubs/index/layout-view';
 import applicationsStorage from './hubs/storage';
 import ApplicationFormView from './hubs/add/view';
-// Users
-import UsersView from './users/view';
-import NewUserView from './users/add/view';
-import usersStorage from './users/storage';
 
 const management = props => {
   const { app } = props;
@@ -15,10 +11,7 @@ const management = props => {
       management: 'showManagement',
       'management/applications(/)': 'showApplications',
       'management/applications/new': 'newApplication',
-      'management/applications/edit/:id': 'editApplication',
-      'management/users(/)': 'showUsers',
-      'management/users/new': 'newUser',
-      'management/users/edit/:userId': 'editUser'
+      'management/applications/edit/:id': 'editApplication'
     },
     controller: {
       showManagement() {
@@ -35,19 +28,6 @@ const management = props => {
       editApplication(applicationId) {
         applicationsStorage.find(applicationId).then(model => {
           app.showViewOnRoute(new ApplicationFormView({ model, app }));
-        });
-      },
-      showUsers() {
-        usersStorage.find().then(model => {
-          app.showViewOnRoute(new UsersView({ model, app }));
-        });
-      },
-      newUser() {
-        app.showViewOnRoute(new NewUserView({ app }));
-      },
-      editUser(userId) {
-        usersStorage.find(userId).then(model => {
-          app.showViewOnRoute(new NewUserView({ model, app }));
         });
       }
     }

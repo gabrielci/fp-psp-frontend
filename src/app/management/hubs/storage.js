@@ -19,10 +19,6 @@ var ApplicationsStorage = Storage.extend({
         {
           name: t(`subheader.management.hubs`),
           link: `/#management/applications`
-        },
-        {
-          name: t(`subheader.management.users`),
-          link: `/#management/users`
         }
       ]
     };
@@ -33,10 +29,6 @@ var ApplicationsStorage = Storage.extend({
         {
           name: t(`subheader.management.hubs`),
           link: `/#management/applications`
-        },
-        {
-          name: t(`subheader.management.users`),
-          link: `/#management/users`
         }
       ]
     };

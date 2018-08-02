@@ -8,10 +8,6 @@ var ManagementStorage = Storage.extend({
     return {
       navigationItems: [
         {
-          name: t(`subheader.management.users`),
-          link: `/#management/users`
-        },
-        {
           name: t(`subheader.management.organizations`),
           link: `/#management/organizations`
         }
@@ -24,10 +20,6 @@ var ManagementStorage = Storage.extend({
         {
           name: t(`subheader.management.hubs`),
           link: `/#management/applications`
-        },
-        {
-          name: t(`subheader.management.users`),
-          link: `/#management/users`
         }
       ]
     };

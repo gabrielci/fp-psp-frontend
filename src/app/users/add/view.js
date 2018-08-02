@@ -4,10 +4,9 @@ import $ from 'jquery';
 import Template from './template.hbs';
 import Model from './model';
 import userStorage from './storage';
-import utils from '../../../utils';
-import FlashesService from '../../../flashes/service';
-import env from '../../../env';
-import storage from '../../storage';
+import utils from '../../utils';
+import FlashesService from '../../flashes/service';
+import env from '../../env';
 
 export default Mn.View.extend({
   template: Template,
@@ -19,30 +18,30 @@ export default Mn.View.extend({
   initialize(options) {
     this.app = options.app;
     this.model = new Model();
-    if (this.options.model){
+    if (this.options.model) {
       this.originalModel = options.model.clone();
-      this.model.attributes = this.options.model.attributes
-    }else{
+      this.model.attributes = this.options.model.attributes;
+    } else {
       this.model.urlRoot = `${env.API}/users/addUserRoleApplication`;
     }
   },
   serializeData() {
     return {
       user: this.model.attributes,
-      isNew: this.model.get('id')===undefined,
+      isNew: this.model.get('id') === undefined,
       isChecked: this.model.attributes.active
     };
   },
   onRender() {
     let headerItems;
-    if(this.app.getSession().userHasRole('ROLE_ROOT')){
-      headerItems = storage.getUserSubHeaderItems();
-    }else if(this.app.getSession().userHasRole('ROLE_APP_ADMIN')){
-      headerItems={};
+    if (this.app.getSession().userHasRole('ROLE_ROOT')) {
+    } else if (this.app.getSession().userHasRole('ROLE_APP_ADMIN')) {
+      headerItems = {};
       let user = this.app.getSession().get('user');
-      this.$el.find('#cancel').attr('href', `#organizations/${user.organization.id}/users`);
-    }else{
-      headerItems = storage.getSubHeaderItems();
+      this.$el
+        .find('#cancel')
+        .attr('href', `#organizations/${user.organization.id}/users`);
+    } else {
     }
     this.app.updateSubHeader(headerItems);
   },
@@ -78,20 +77,15 @@ export default Mn.View.extend({
 
     var roles = [];
     if (session.userHasRole('ROLE_ROOT')) {
-      roles.push({role: "ROLE_HUB_ADMIN"});
+      roles.push({ role: 'ROLE_HUB_ADMIN' });
     } else if (session.userHasRole('ROLE_HUB_ADMIN')) {
-      roles.push({role: "ROLE_APP_ADMIN"});
+      roles.push({ role: 'ROLE_APP_ADMIN' });
     } else if (session.userHasRole('ROLE_APP_ADMIN')) {
-      roles.push({role: "ROLE_USER"});
-      roles.push({role: "ROLE_SURVEY_USER"});
+      roles.push({ role: 'ROLE_USER' });
+      roles.push({ role: 'ROLE_SURVEY_USER' });
     }
 
-    this.loadSelect(
-      roles,
-      '#select-role',
-      t('user.form.select-role'),
-      'role'
-    );
+    this.loadSelect(roles, '#select-role', t('user.form.select-role'), 'role');
   },
   genericFetch(path, selectId, placeholder, fieldDisplayed) {
     const self = this;
@@ -131,12 +125,15 @@ export default Mn.View.extend({
       .forEach(element => {
         this.model.set(element.name, element.value);
       });
-    this.model.set('active',this.model.get('active')==="on");
+    this.model.set('active', this.model.get('active') === 'on');
 
-    if (!this.model.attributes.userId && session.userHasRole('ROLE_APP_ADMIN')) {
-        let user = session.get('user');
-        this.model.set('application', user.application && user.application.id);
-        this.model.set('organization', user.organization && user.organization.id);
+    if (
+      !this.model.attributes.userId &&
+      session.userHasRole('ROLE_APP_ADMIN')
+    ) {
+      let user = session.get('user');
+      this.model.set('application', user.application && user.application.id);
+      this.model.set('organization', user.organization && user.organization.id);
     }
 
     let errors = this.model.validate();
@@ -164,12 +161,12 @@ export default Mn.View.extend({
           let user = session.get('user');
           let url = `organizations/${user.organization.id}/users`;
           Bn.history.navigate(url, { trigger: true });
-        }else{
+        } else {
           Bn.history.navigate('management/users', { trigger: true });
         }
-        if (modelIsNew){
+        if (modelIsNew) {
           outcome = 'user.form.add-success';
-        }else{
+        } else {
           outcome = 'user.form.edit-success';
         }
         FlashesService.request('add', {
@@ -179,7 +176,7 @@ export default Mn.View.extend({
         });
       })
       .catch(response => {
-        if (!modelIsNew){
+        if (!modelIsNew) {
           this.model.set(this.originalModel.attributes);
         }
 

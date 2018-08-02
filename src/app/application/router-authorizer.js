@@ -10,10 +10,13 @@ const adminCrudRoutes = {
   families: ['families(/)', 'families'],
   surveys: ['surveys(/)', 'surveys'],
   reports: ['reports(/)', 'reports'],
-  organizationReports: ['reports/snapshots/organizations(/)', 'organizationReports'],
+  users: ['users(/)', 'users'],
+  organizationReports: [
+    'reports/snapshots/organizations(/)',
+    'organizationReports'
+  ],
   management: ['management(/)', 'management'],
   manageFamilies: ['management/manage-families', 'manageFamilies'],
-  users: ['management/users(/)', 'users'],
   applications: ['management/applications(/)', 'applications'],
   organizations: ['management/organizations(/)', 'organizations'],
   organizationsList: ['management/organizations', 'organizationsList']
@@ -47,10 +50,10 @@ class Authorizer {
     const routesKeys = _keys(this.appRoutes);
     if (this.session.userHasRole('ROLE_ROOT')) {
       return routesKeys
-      .filter(route => !_includes(adminCrudRoutes.organizationsInfo, route))
-      .filter(route => !_includes(adminCrudRoutes.reports, route))
-      .filter(route => !_includes(adminCrudRoutes.organizationReports, route))
-      .filter(route => !_includes(adminCrudRoutes.organizations, route));
+        .filter(route => !_includes(adminCrudRoutes.organizationsInfo, route))
+        .filter(route => !_includes(adminCrudRoutes.reports, route))
+        .filter(route => !_includes(adminCrudRoutes.organizationReports, route))
+        .filter(route => !_includes(adminCrudRoutes.organizations, route));
     }
 
     if (this.session.userHasRole('ROLE_HUB_ADMIN')) {

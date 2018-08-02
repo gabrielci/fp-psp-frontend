@@ -5,9 +5,6 @@ export default Mn.CollectionView.extend({
   childView: ItemView,
   childViewOptions: {},
   className: 'list-container row',
-  childEvents: {
-    'delete:model': 'handleDelete'
-  },
   onRender() {
     this.$el.find('#search').focus();
   },

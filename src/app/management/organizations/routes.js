@@ -4,10 +4,10 @@ import OrganizationView from './show/view';
 import OrganizationFormView from './add/view';
 import organizationsStorage from './storage';
 import OrganizationDashboard from './dashboard/model';
-import NewUserView from '../users/add/view';
+// import NewUserView from '../users/add/view';
 
 const organizations = props => {
-  const {app} = props;
+  const { app } = props;
   const routes = {
     appRoutes: {
       'collaborators(/:entity)': 'showHubs',
@@ -17,19 +17,19 @@ const organizations = props => {
       'management/organizations/new': 'newOrganization',
       'management/organizations/edit/:id': 'editOrganization',
       'organizations/:id(/:entity)': 'showOrganization',
-      'management/organizations/:id(/:entity)': 'showOrganization',
-      'organizations/:id(/:entity)/new': 'showUsersForm'
+      'management/organizations/:id(/:entity)': 'showOrganization'
+      // 'organizations/:id(/:entity)/new': 'showUsersForm'
     },
     controller: {
       // paginated organizations
       showHubs(entity) {
-        app.showViewOnRoute(new HubView({app, entity}));
+        app.showViewOnRoute(new HubView({ app, entity }));
       },
       showOrganizations() {
-        app.showViewOnRoute(new OrganizationsView({app}));
+        app.showViewOnRoute(new OrganizationsView({ app }));
       },
       showOrganizationsByApplication(entity, applicationId) {
-        app.showViewOnRoute(new OrganizationsView({app, applicationId}));
+        app.showViewOnRoute(new OrganizationsView({ app, applicationId }));
       },
       showOrganization(organizationId, entity) {
         // show the organization dashboard
@@ -52,16 +52,16 @@ const organizations = props => {
           });
       },
       newOrganization() {
-        app.showViewOnRoute(new OrganizationFormView({app}));
+        app.showViewOnRoute(new OrganizationFormView({ app }));
       },
       editOrganization(organizationId) {
         organizationsStorage.find(organizationId).then(model => {
-          app.showViewOnRoute(new OrganizationFormView({model, app}));
+          app.showViewOnRoute(new OrganizationFormView({ model, app }));
         });
-      },
-      showUsersForm() {
-        app.showViewOnRoute(new NewUserView({app}));
       }
+      // showUsersForm() {
+      //   app.showViewOnRoute(new NewUserView({app}));
+      // }
     }
   };
   return routes;

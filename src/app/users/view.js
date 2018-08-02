@@ -1,15 +1,13 @@
 import Mn from 'backbone.marionette';
 import $ from 'jquery';
 import { debounce } from 'lodash';
-import utils from '../../utils';
+import utils from '../utils';
 import Template from './template.hbs';
 import CollectionView from './collection-view';
 import UsersModel from './model';
 import Collection from './collection';
-import storage from './storage';
-import OrganizationModel from '../organizations/model';
-import env from "../../env";
-
+import OrganizationModel from '../management/organizations/model';
+import env from '../env';
 
 export default Mn.View.extend({
   template: Template,
@@ -37,25 +35,6 @@ export default Mn.View.extend({
     });
   },
   onRender() {
-    let headerItems;
-    if(this.app.getSession().userHasRole('ROLE_ROOT')){
-      headerItems = storage.getUserSubHeaderItems();
-    } else if(this.app.getSession().userHasRole('ROLE_APP_ADMIN') && this.orgModel.get('id')){
-      headerItems = storage.getAppAdminHeaderItems(this.orgModel);
-    } else{
-      headerItems = storage.getSubHeaderItems();
-    }
-    this.app.updateSubHeader(headerItems);
-    if(this.app.getSession().userHasRole('ROLE_ROOT') ||
-    this.app.getSession().userHasRole('ROLE_HUB_ADMIN')){
-      $('a[href$="management/users"]')
-        .parent()
-        .addClass('subActive');
-    }else{
-      $(`a[href$="organizations/${this.orgModel.get('id')}/users"]`)
-        .parent()
-        .addClass('subActive');
-    }
     setTimeout(() => {
       this.$el.find('#search').focus();
     }, 0);
@@ -69,8 +48,10 @@ export default Mn.View.extend({
       session.userHasRole('ROLE_APP_ADMIN')
     ) {
       this.$el.find('#add-new').show();
-      if(session.userHasRole('ROLE_APP_ADMIN') && this.orgModel){
-        this.$el.find('#add-new').attr('href', `#organizations/${this.orgModel.get('id')}/users/new`)
+      if (session.userHasRole('ROLE_APP_ADMIN') && this.orgModel) {
+        this.$el
+          .find('#add-new')
+          .attr('href', `#organizations/${this.orgModel.get('id')}/users/new`);
       }
     }
   },
@@ -122,7 +103,7 @@ export default Mn.View.extend({
       this.params.page = this.collection.currentPage + 1;
 
       let moreElements = new UsersModel();
-      moreElements.url=`${env.API}/users`;
+      moreElements.url = `${env.API}/users`;
       moreElements.fetch({
         data: this.params,
         success(response) {

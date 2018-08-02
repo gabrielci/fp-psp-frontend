@@ -16,10 +16,6 @@ var OrganizationsStorage = Storage.extend({
         {
           name: t('subheader.families'),
           link: `/#organizations/${model.get('id')}/families`
-        },
-        {
-          name: t('subheader.users'),
-          link: `/#organizations/${model.get('id')}/users`
         }
       ]
     };
@@ -34,10 +30,6 @@ var OrganizationsStorage = Storage.extend({
         {
           name: t('subheader.families'),
           link: `/#management/organizations/${model.get('id')}/families`
-        },
-        {
-          name: t('subheader.users'),
-          link: `/#management/organizations/${model.get('id')}/users`
         }
       ]
     };
