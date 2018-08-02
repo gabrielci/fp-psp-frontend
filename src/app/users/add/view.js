@@ -34,14 +34,12 @@ export default Mn.View.extend({
   },
   onRender() {
     let headerItems;
-    if (this.app.getSession().userHasRole('ROLE_ROOT')) {
-    } else if (this.app.getSession().userHasRole('ROLE_APP_ADMIN')) {
+    if (this.app.getSession().userHasRole('ROLE_APP_ADMIN')) {
       headerItems = {};
       let user = this.app.getSession().get('user');
       this.$el
         .find('#cancel')
         .attr('href', `#organizations/${user.organization.id}/users`);
-    } else {
     }
     this.app.updateSubHeader(headerItems);
   },
