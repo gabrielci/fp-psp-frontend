@@ -9,7 +9,6 @@ const allMenuItems = {
     { name: 'users', link: '#users' },
     { name: 'families', link: '#families' },
     { name: 'surveys', link: '#surveys' },
-    { name: 'faqs', link: '#faqs' },
     { name: 'management', link: '#management' },
     { name: 'map', link: '#map' }
   ]
