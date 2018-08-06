@@ -6,7 +6,6 @@ import CollectionView from './collection-view';
 import utils from '../../utils';
 import Model from '../model';
 import Collection from '../collection';
-import storage from '../storage';
 
 export default Mn.View.extend({
   template: Template,

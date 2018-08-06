@@ -1,11 +1,10 @@
 import Mn from 'backbone.marionette';
-import $ from 'jquery';
 import moment from 'moment';
 import { history } from 'backbone';
 import Template from './template.hbs';
 import Model from '../model';
-import storage from '../storage';
 import utils from '../../utils';
+import storage from '../storage';
 import FlashesService from '../../flashes/service';
 import TermCondPolModel from '../../management/termcondpol/model';
 import LastTermCondPolModel from '../../termcondpol/model';
