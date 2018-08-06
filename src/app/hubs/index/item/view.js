@@ -1,4 +1,4 @@
-import Bn from "backbone";
+import Bn from 'backbone';
 import Mn from 'backbone.marionette';
 import Template from './template.hbs';
 
@@ -8,7 +8,7 @@ export default Mn.View.extend({
     'click .card-menu-delete': 'delete:model'
   },
   events: {
-    'click .card-menu-edit': 'editApplication'
+    'click .card-menu-edit': 'editHub'
   },
   serializeData() {
     return {
@@ -16,9 +16,9 @@ export default Mn.View.extend({
       logoUrl: this.model.get('logoUrl') || '/static/images/icon_logo_hub.png'
     };
   },
-  editApplication(event) {
+  editHub(event) {
     event.preventDefault();
 
-    Bn.history.navigate(`/management/applications/edit/${this.model.get('id')}`, true);
+    Bn.history.navigate(`/hubs/edit/${this.model.get('id')}`, true);
   }
 });

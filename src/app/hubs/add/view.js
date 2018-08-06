@@ -1,21 +1,21 @@
 import Mn from 'backbone.marionette';
 import $ from 'jquery';
 import moment from 'moment';
-import {history} from 'backbone';
+import { history } from 'backbone';
 import Template from './template.hbs';
 import Model from '../model';
 import storage from '../storage';
-import utils from '../../../utils';
-import FlashesService from '../../../flashes/service';
-import TermCondPolModel from '../../termcondpol/model';
-import LastTermCondPolModel from '../../../termcondpol/model';
+import utils from '../../utils';
+import FlashesService from '../../flashes/service';
+import TermCondPolModel from '../../management/termcondpol/model';
+import LastTermCondPolModel from '../../termcondpol/model';
 
 export default Mn.View.extend({
   template: Template,
   events: {
     'click .select-file': 'selectFile',
-    'click .select-term-file' : 'selectTermFile',
-    'click .select-pol-file' : 'selectPolFile',
+    'click .select-term-file': 'selectTermFile',
+    'click .select-pol-file': 'selectPolFile',
     'change #input-image-file': 'previewFile',
     'click #submit': 'handleSubmit',
     'change #input-terms-file': 'handleTermsCondFile',
@@ -41,34 +41,21 @@ export default Mn.View.extend({
     var self = this;
     var selectLocale = this.$el.find('#term-cond-pol-locale').val();
     this.getLastTermCondPol('TC', 0, selectLocale).then(result => {
-      self.defaultTermCond = result
+      self.defaultTermCond = result;
     });
     this.getLastTermCondPol('PRIV', 0, selectLocale).then(result => {
-      self.defaultPrivacyPolicy = result
+      self.defaultPrivacyPolicy = result;
     });
   },
-  onRender() {
-    let headerItems;
-    if(this.app.getSession().userHasRole('ROLE_ROOT')){
-      headerItems = storage.getUserSubHeaderItems();
-    }else{
-      headerItems = storage.getSubHeaderItems();
-    }
-    this.app.updateSubHeader(headerItems)
-    $('a[href$="management/applications"]')
-      .parent()
-      .addClass('subActive');
 
-    this.getDefaultValues();
-  },
   selectFile() {
     this.$el.find('#input-image-file').click();
   },
   selectTermFile() {
-    this.$el.find("#input-terms-file").click();
+    this.$el.find('#input-terms-file').click();
   },
   selectPolFile() {
-    this.$el.find("#input-pol-file").click();
+    this.$el.find('#input-pol-file').click();
   },
   previewFile() {
     var self = this;
@@ -92,8 +79,10 @@ export default Mn.View.extend({
     var self = this;
     var reader = new FileReader();
     reader.onload = () => {
-      if(self.validateInputFile(uploadedFile.name)) {
-        self.$el.find(`#${  type  }-file`).attr('src', '/static/images/ok-form.png');
+      if (self.validateInputFile(uploadedFile.name)) {
+        self.$el
+          .find(`#${type}-file`)
+          .attr('src', '/static/images/ok-form.png');
 
         if (type === 'termcond') {
           self.termCond = reader.result;
@@ -102,7 +91,9 @@ export default Mn.View.extend({
         }
         self.hasErrors = false;
       } else {
-        self.$el.find(`#${  type  }-file`).attr('src', '/static/images/cancel-form.png');
+        self.$el
+          .find(`#${type}-file`)
+          .attr('src', '/static/images/cancel-form.png');
         self.hasErrors = true;
         FlashesService.request('add', {
           timeout: 5000,
@@ -114,7 +105,7 @@ export default Mn.View.extend({
     reader.readAsText(uploadedFile);
   },
   validateInputFile(file) {
-    return (file.match(/\.(html)$/i));
+    return file.match(/\.(html)$/i);
   },
   saveTermsCondPol(appId) {
     var self = this;
@@ -123,42 +114,52 @@ export default Mn.View.extend({
     this.termCondPolModel.set('year', moment().year());
     this.termCondPolModel.set('id_application', appId);
 
-    this.getLastTermCondPol('TC', appId, selectLocale).then(html => {
-      self.termCondPolModel.set('type_cod', 'TC');
-      self.termCondPolModel.set('locale', selectLocale);
+    this.getLastTermCondPol('TC', appId, selectLocale)
+      .then(html => {
+        self.termCondPolModel.set('type_cod', 'TC');
+        self.termCondPolModel.set('locale', selectLocale);
 
-      if(!html && !self.termCond) {
-        self.saveAsNewOne('TC');
-        return;
-      }
-      if(self.termCond && self.termCond !== html && self.termCond !== self.defaultTermCond) {
-        self.termCondPolModel.set('html', self.termCond);
-        self.termCondPolModel.save({});
-      }
-    }).then(() => {
-      self.termCondPolModel.set('type_cod', 'PRIV');
-
-      this.getLastTermCondPol('PRIV', appId, selectLocale).then(html => {
-        if(!html && !self.privacyPolicy) {
-          self.saveAsNewOne('PRIV');
+        if (!html && !self.termCond) {
+          self.saveAsNewOne('TC');
           return;
         }
-        if(self.privacyPolicy && self.privacyPolicy !== html && self.privacyPolicy !== self.defaultPrivacyPolicy) {
-          self.termCondPolModel.set('html', self.privacyPolicy);
+        if (
+          self.termCond &&
+          self.termCond !== html &&
+          self.termCond !== self.defaultTermCond
+        ) {
+          self.termCondPolModel.set('html', self.termCond);
           self.termCondPolModel.save({});
         }
+      })
+      .then(() => {
+        self.termCondPolModel.set('type_cod', 'PRIV');
+
+        this.getLastTermCondPol('PRIV', appId, selectLocale).then(html => {
+          if (!html && !self.privacyPolicy) {
+            self.saveAsNewOne('PRIV');
+            return;
+          }
+          if (
+            self.privacyPolicy &&
+            self.privacyPolicy !== html &&
+            self.privacyPolicy !== self.defaultPrivacyPolicy
+          ) {
+            self.termCondPolModel.set('html', self.privacyPolicy);
+            self.termCondPolModel.save({});
+          }
+        });
       });
-    });
   },
   saveAsNewOne(type) {
-    if(type === 'TC') {
-      if (!this.defaultTermCond){
-        this.defaultTermCond = "<html></html>";
+    if (type === 'TC') {
+      if (!this.defaultTermCond) {
+        this.defaultTermCond = '<html></html>';
       }
       this.termCondPolModel.set('html', this.defaultTermCond);
-    } else  {
-      if (!this.defaultPrivacyPolicy){
-        this.defaultPrivacyPolicy = "<html></html>";
+    } else {
+      if (!this.defaultPrivacyPolicy) {
+        this.defaultPrivacyPolicy = '<html></html>';
       }
       this.termCondPolModel.set('html', this.defaultPrivacyPolicy);
     }
@@ -166,13 +167,16 @@ export default Mn.View.extend({
   },
   getLastTermCondPol(type, applicationId, locale) {
     var model = new LastTermCondPolModel();
-    return model.fetch({
-      data: {type, applicationId, locale},
-    }).then((response) => response.html).catch(response => {
-      if(response.status === 400) {
-        return false;
-      }
-    });
+    return model
+      .fetch({
+        data: { type, applicationId, locale }
+      })
+      .then(response => response.html)
+      .catch(response => {
+        if (response.status === 400) {
+          return false;
+        }
+      });
   },
   handleSubmit(event) {
     var self = this;
@@ -214,7 +218,7 @@ export default Mn.View.extend({
       .save(this.model)
       .then(data => {
         button.reset();
-        history.navigate('management/applications', {trigger: true});
+        history.navigate('hubs', { trigger: true });
         FlashesService.request('add', {
           timeout: 3000,
           type: 'info',

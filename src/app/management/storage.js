@@ -13,16 +13,6 @@ var ManagementStorage = Storage.extend({
         }
       ]
     };
-  },
-  getUserSubHeaderItems() {
-    return {
-      navigationItems: [
-        {
-          name: t(`subheader.management.hubs`),
-          link: `/#management/applications`
-        }
-      ]
-    };
   }
 });
 

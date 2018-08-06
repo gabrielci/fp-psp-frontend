@@ -1,8 +1,8 @@
 import Mn from 'backbone.marionette';
 import ItemView from './item/view';
-import Model from "../model";
-import FlashesService from "../../../flashes/service";
-import ModalService from "../../../modal/service";
+import Model from '../model';
+import FlashesService from '../../flashes/service';
+import ModalService from '../../modal/service';
 
 export default Mn.CollectionView.extend({
   childView: ItemView,

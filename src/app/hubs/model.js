@@ -1,5 +1,5 @@
 import Bn from 'backbone';
-import env from '../../env';
+import env from '../env';
 
 export default Bn.Model.extend({
   urlRoot: `${env.API}/applications`,
@@ -36,7 +36,10 @@ export default Bn.Model.extend({
       return errors;
     }
 
-    if (this.attributes.information !== '' && this.attributes.information.length > 256) {
+    if (
+      this.attributes.information !== '' &&
+      this.attributes.information.length > 256
+    ) {
       errors.push(t('hub.form.information-length-exceeded'));
       return errors;
     }

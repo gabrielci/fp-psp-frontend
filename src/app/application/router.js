@@ -14,6 +14,7 @@ import reports from '../reports/routes';
 import management from '../management/routes';
 import map from '../map/routes';
 import users from '../users/routes';
+import hubs from '../hubs/routes';
 
 const initRouter = props => {
   const { app, before, onAccessDenied } = props;
@@ -31,7 +32,8 @@ const initRouter = props => {
     reports(props),
     management(props),
     map(props),
-    users(props)
+    users(props),
+    hubs(props)
   );
   const authorizer = initAuthorizer({
     onAccessDenied,

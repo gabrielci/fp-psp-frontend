@@ -7,7 +7,7 @@ import CollectionView from './collection-view';
 import utils from '../../../utils';
 import Model from '../model';
 import Collection from '../collection';
-import hubStorage from '../../hubs/storage';
+import hubStorage from '../../../hubs/storage';
 import storage from '../../storage';
 
 export default Mn.View.extend({
@@ -48,15 +48,15 @@ export default Mn.View.extend({
       hubStorage.find(this.applicationId).then(model => {
         headerItems = storage.getSubHeaderItems(model);
       });
-    }else{
+    } else {
       headerItems = storage.getSubHeaderItems();
     }
     this.app.updateSubHeader(headerItems);
-    if(this.app.getSession().userHasRole('ROLE_HUB_ADMIN')){
+    if (this.app.getSession().userHasRole('ROLE_HUB_ADMIN')) {
       $('a[href$="management/organizations"]')
         .parent()
         .addClass('subActive');
-    }else{
+    } else {
       $('#sub-header .navbar-header > .navbar-brand').addClass('subActive');
     }
   },

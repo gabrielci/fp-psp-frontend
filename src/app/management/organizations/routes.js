@@ -1,5 +1,4 @@
 import OrganizationsView from './index/layout-view';
-import HubView from './index/hubs/layout-view';
 import OrganizationView from './show/view';
 import OrganizationFormView from './add/view';
 import organizationsStorage from './storage';
@@ -10,8 +9,6 @@ const organizations = props => {
   const { app } = props;
   const routes = {
     appRoutes: {
-      'collaborators(/:entity)': 'showHubs',
-      'collaborators(/:entity)/:id': 'showOrganizationsByApplication',
       'management/organizations(/)': 'showOrganizations',
       'organizations(/)': 'showOrganizations',
       'management/organizations/new': 'newOrganization',
@@ -22,9 +19,7 @@ const organizations = props => {
     },
     controller: {
       // paginated organizations
-      showHubs(entity) {
-        app.showViewOnRoute(new HubView({ app, entity }));
-      },
+
       showOrganizations() {
         app.showViewOnRoute(new OrganizationsView({ app }));
       },

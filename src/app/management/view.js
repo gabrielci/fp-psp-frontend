@@ -8,13 +8,13 @@ export default Mn.View.extend({
     surveysContent: '#management-content'
   },
   initialize(app) {
-    this.app=app.app
+    this.app = app.app;
   },
   onRender() {
     let headerItems;
-    if(this.app.getSession().userHasRole('ROLE_ROOT')){
+    if (this.app.getSession().userHasRole('ROLE_ROOT')) {
       headerItems = storage.getUserSubHeaderItems();
-    }else{
+    } else {
       headerItems = storage.getSubHeaderItems();
     }
     this.app.updateSubHeader(headerItems);

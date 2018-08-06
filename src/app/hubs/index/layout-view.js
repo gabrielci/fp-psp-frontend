@@ -3,10 +3,10 @@ import $ from 'jquery';
 import { debounce } from 'lodash';
 import Template from './layout-template.hbs';
 import CollectionView from './collection-view';
-import storage from './storage';
-import utils from '../../../../utils';
-import HubsModel from './model';
-import Collection from "../../../hubs/collection";
+import utils from '../../utils';
+import Model from '../model';
+import Collection from '../collection';
+import storage from '../storage';
 
 export default Mn.View.extend({
   template: Template,
@@ -19,10 +19,8 @@ export default Mn.View.extend({
   },
   initialize(options) {
     this.app = options.app;
-    this.entity = options.entity;
     // eslint-disable-next-line no-undef
     _.bindAll(this, 'loadMore');
-    // bind scroll event to window
     $(window).scroll(debounce(this.loadMore, 50));
 
     this.collection = new Collection();
@@ -34,18 +32,11 @@ export default Mn.View.extend({
       trailing: true
     });
   },
-  onRender() {
-    const headerItems = storage.getMainSubHeaderItems();
-    this.app.updateSubHeader(headerItems);
 
-    $(`#subMenuItem > a[href$="collaborators/${this.entity}"]`)
-      .parent()
-      .addClass('subActive');
-
-    setTimeout(() => {
-      this.$el.find('#search').focus();
-    }, 0);
-    this.showList();
+  onAttach() {
+    if (this.app.getSession().userHasRole('ROLE_ROOT')) {
+      this.$el.find('#add-new').show();
+    }
   },
   getTemplate() {
     return Template;
@@ -87,7 +78,6 @@ export default Mn.View.extend({
     let scrollPosition = $(window).height() + $(window).scrollTop();
     let margin = 150; // margin to scroll from the bottom
 
-    // if we are closer than 'margin' to the end of the content, load more books
     if (scrollPosition + margin >= scrollHeight) {
       this.searchMore();
     }
@@ -97,7 +87,7 @@ export default Mn.View.extend({
     if (this.collection.currentPage < this.collection.totalPages) {
       this.params.page = this.collection.currentPage + 1;
 
-      let moreElements = new HubsModel();
+      let moreElements = new Model();
       moreElements.fetch({
         data: this.params,
         success(response) {

@@ -1,8 +1,8 @@
 import ManagementView from './view';
 // Applications
-import ApplicationsView from './hubs/index/layout-view';
-import applicationsStorage from './hubs/storage';
-import ApplicationFormView from './hubs/add/view';
+import ApplicationsView from '../hubs/index/layout-view';
+import applicationsStorage from '../hubs/storage';
+import ApplicationFormView from '../hubs/add/view';
 
 const management = props => {
   const { app } = props;

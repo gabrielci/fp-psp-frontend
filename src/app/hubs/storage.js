@@ -11,27 +11,9 @@ var ApplicationsStorage = Storage.extend({
         mainItem: {
           name: `${model.get('name')} :: ${model.get('description')}`
         },
-        link: `/#management/applications/${model.get('id')}`
+        link: `/#hubs/${model.get('id')}`
       };
     }
-    return {
-      navigationItems: [
-        {
-          name: t(`subheader.management.hubs`),
-          link: `/#management/applications`
-        }
-      ]
-    };
-  },
-  getUserSubHeaderItems() {
-    return {
-      navigationItems: [
-        {
-          name: t(`subheader.management.hubs`),
-          link: `/#management/applications`
-        }
-      ]
-    };
   }
 });
 
