@@ -74,8 +74,7 @@ class Authorizer {
         .filter(route => !_includes(adminCrudRoutes.organizationsList, route))
         .filter(route => !_includes(adminCrudRoutes.organizationsInfo, route))
         .filter(route => !_includes(adminCrudRoutes.management, route))
-        .filter(route => !_includes(adminCrudRoutes.manageFamilies, route))
-        .filter(route => !_includes(adminCrudRoutes.families, route));
+        .filter(route => !_includes(adminCrudRoutes.manageFamilies, route));
     }
 
     // regular user

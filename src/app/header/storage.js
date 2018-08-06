@@ -65,7 +65,6 @@ var HeaderStorage = Storage.extend({
           .filter(
             item =>
               !(item.link === '#applications') &&
-              !(item.link === '#families') &&
               !(item.link.indexOf('#hubs') !== -1) &&
               !(item.link === '#management')
           )

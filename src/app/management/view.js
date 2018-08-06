@@ -11,12 +11,7 @@ export default Mn.View.extend({
     this.app = app.app;
   },
   onRender() {
-    let headerItems;
-    if (this.app.getSession().userHasRole('ROLE_ROOT')) {
-      headerItems = storage.getUserSubHeaderItems();
-    } else {
-      headerItems = storage.getSubHeaderItems();
-    }
+    let headerItems = storage.getSubHeaderItems();
     this.app.updateSubHeader(headerItems);
   }
 });

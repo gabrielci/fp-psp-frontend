@@ -12,12 +12,7 @@ var OrganizationsStorage = Storage.extend({
         link: `/#organizations/${model.get('id')}`,
         logoUrl: model.get('logoUrl') || '/static/images/icon_logo_place.png'
       },
-      navigationItems: [
-        {
-          name: t('subheader.families'),
-          link: `/#organizations/${model.get('id')}/families`
-        }
-      ]
+      navigationItems: []
     };
   },
   getUserSubHeaderItems(model) {
@@ -26,12 +21,7 @@ var OrganizationsStorage = Storage.extend({
         name: model.get('name'),
         link: `/#management/organizations/${model.get('id')}`
       },
-      navigationItems: [
-        {
-          name: t('subheader.families'),
-          link: `/#management/organizations/${model.get('id')}/families`
-        }
-      ]
+      navigationItems: []
     };
   },
   getHubAdminHeaderItems(model) {
