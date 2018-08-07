@@ -3,7 +3,7 @@ import $ from 'jquery';
 import c3 from 'c3';
 import 'datatables.net-bs';
 import Template from './template.hbs';
-import FamiliesView from './families/index/layout-view';
+import FamiliesView from '../../../families/index/layout-view';
 import storage from '../storage';
 import ActivityFeed from '../activities/collection';
 import FeedItem from '../activities/item/view';
