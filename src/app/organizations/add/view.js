@@ -1,6 +1,5 @@
 import Mn from 'backbone.marionette';
 import { history } from 'backbone';
-import $ from 'jquery';
 import Template from './template.hbs';
 import Model from '../model';
 import storage from '../storage';
