@@ -1,14 +1,13 @@
 import Mn from 'backbone.marionette';
-import {history} from 'backbone';
+import { history } from 'backbone';
 import $ from 'jquery';
 import Template from './template.hbs';
 import Model from '../model';
 import storage from '../storage';
-import managementStorage from '../../storage';
-import utils from '../../../utils';
-import FlashesService from '../../../flashes/service';
-import LabelSelectorView from '../../labels/label-selector-view';
-import OrganizationLabelModel from '../../labels/organization-label-model';
+import utils from '../../utils';
+import FlashesService from '../../flashes/service';
+import LabelSelectorView from '../../management/labels/label-selector-view';
+import OrganizationLabelModel from '../../management/labels/organization-label-model';
 
 export default Mn.View.extend({
   template: Template,
@@ -21,32 +20,14 @@ export default Mn.View.extend({
     this.app = options.app;
     this.model = options.model || new Model();
     this.organizationLabelModel = new OrganizationLabelModel({
-      organizationId:this.model.get('id') || null
+      organizationId: this.model.get('id') || null
     });
     this.labelSelectorView = new LabelSelectorView({
-      app:this.app,
-      toFilter:false
-     });
+      app: this.app,
+      toFilter: false
+    });
   },
-  onRender() {
-    let headerItems;
-    if(this.app.getSession().userHasRole('ROLE_ROOT')){
-      headerItems = managementStorage.getUserSubHeaderItems();
-    }else{
-      headerItems = managementStorage.getSubHeaderItems();
-    }
-    this.app.updateSubHeader(headerItems);
-    if(this.app.getSession().userHasRole('ROLE_HUB_ADMIN')){
-      $('a[href$="management/organizations"]')
-        .parent()
-        .addClass('subActive');
-    }else{
-      $('#sub-header .navbar-header > .navbar-brand').addClass('subActive');
-    }
-    this.$el.find('#label-selector').html(this.labelSelectorView.render().el);
-    if(this.model.get('id')) this.getOrganizationLabels();
 
-  },
   serializeData() {
     return {
       organization: this.model.attributes,
@@ -103,7 +84,7 @@ export default Mn.View.extend({
       .then(() => {
         button.reset();
         self.addLabels();
-        history.navigate('management/organizations', {trigger: true});
+        history.navigate('management/organizations', { trigger: true });
         FlashesService.request('add', {
           timeout: 3000,
           type: 'info',
@@ -112,7 +93,6 @@ export default Mn.View.extend({
       })
       .catch(response => {
         if (response.status === 400) {
-
           FlashesService.request('add', {
             timeout: 3000,
             type: 'danger',
@@ -122,17 +102,20 @@ export default Mn.View.extend({
         button.reset();
       });
   },
-  getOrganizationLabels(){
+  getOrganizationLabels() {
     var self = this;
     this.organizationLabelModel.fetch({
-      success(model, response){
-        if(response && response.length>0) self.labelSelectorView.setLabels(response);
+      success(model, response) {
+        if (response && response.length > 0)
+          self.labelSelectorView.setLabels(response);
       }
-    })
+    });
   },
   addLabels() {
-    this.organizationLabelModel.set('labelId',
-      this.labelSelectorView.getLabelsSelected());
+    this.organizationLabelModel.set(
+      'labelId',
+      this.labelSelectorView.getLabelsSelected()
+    );
     this.organizationLabelModel.save();
   }
 });

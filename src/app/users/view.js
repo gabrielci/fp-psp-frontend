@@ -6,7 +6,7 @@ import Template from './template.hbs';
 import CollectionView from './collection-view';
 import UsersModel from './model';
 import Collection from './collection';
-import OrganizationModel from '../management/organizations/model';
+import OrganizationModel from '../organizations/model';
 import env from '../env';
 
 export default Mn.View.extend({

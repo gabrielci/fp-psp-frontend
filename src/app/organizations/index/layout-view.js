@@ -1,14 +1,13 @@
 import Mn from 'backbone.marionette';
 import $ from 'jquery';
 import { debounce } from 'lodash';
-import env from '../../../env';
+import env from '../../env';
 import Template from './layout-template.hbs';
 import CollectionView from './collection-view';
-import utils from '../../../utils';
+import utils from '../../utils';
 import Model from '../model';
 import Collection from '../collection';
-import hubStorage from '../../../hubs/storage';
-import storage from '../../storage';
+import hubStorage from '../../hubs/storage';
 
 export default Mn.View.extend({
   template: Template,
@@ -42,24 +41,7 @@ export default Mn.View.extend({
       trailing: true
     });
   },
-  onRender() {
-    let headerItems;
-    if (this.applicationId) {
-      hubStorage.find(this.applicationId).then(model => {
-        headerItems = storage.getSubHeaderItems(model);
-      });
-    } else {
-      headerItems = storage.getSubHeaderItems();
-    }
-    this.app.updateSubHeader(headerItems);
-    if (this.app.getSession().userHasRole('ROLE_HUB_ADMIN')) {
-      $('a[href$="management/organizations"]')
-        .parent()
-        .addClass('subActive');
-    } else {
-      $('#sub-header .navbar-header > .navbar-brand').addClass('subActive');
-    }
-  },
+
   onAttach() {
     if (this.app.getSession().userHasRole('ROLE_HUB_ADMIN')) {
       this.$el.find('#add-new').show();

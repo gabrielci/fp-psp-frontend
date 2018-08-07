@@ -4,11 +4,12 @@ import Model from './model';
 const allMenuItems = {
   mainItem: { link: '#' },
   navigationItems: [
-    { name: 'hubs', link: '#hubs' },
     { name: 'reports', link: '#reports/snapshots' },
+    { name: 'hubs', link: '#hubs' },
+    { name: 'surveys', link: '#surveys' },
+    { name: 'organizations', link: '#organizations' },
     { name: 'users', link: '#users' },
     { name: 'families', link: '#families' },
-    { name: 'surveys', link: '#surveys' },
     { name: 'management', link: '#management' },
     { name: 'map', link: '#map' }
   ]
@@ -66,6 +67,7 @@ var HeaderStorage = Storage.extend({
             item =>
               !(item.link === '#applications') &&
               !(item.link.indexOf('#hubs') !== -1) &&
+              !(item.link.indexOf('#organizations') !== -1) &&
               !(item.link === '#management')
           )
           .map(item => {
@@ -83,6 +85,7 @@ var HeaderStorage = Storage.extend({
         .filter(
           item =>
             !(item.link === '#applications') &&
+            !(item.link.indexOf('#organizations') !== -1) &&
             !(item.link === '#reports/snapshots') &&
             !(item.link.indexOf('#hubs') !== -1) &&
             !(item.link === '#management') &&

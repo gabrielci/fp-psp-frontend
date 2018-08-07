@@ -6,7 +6,6 @@ const anonymousRoutes = ['', 'home', 'logout'];
 
 const adminCrudRoutes = {
   hubs: ['hubs(/)', 'hubs'],
-  organizationsInfo: ['organizations(/)', 'organizationsInfo'],
   families: ['families(/)', 'families'],
   surveys: ['surveys(/)', 'surveys'],
   reports: ['reports(/)', 'reports'],
@@ -16,10 +15,8 @@ const adminCrudRoutes = {
     'organizationReports'
   ],
   management: ['management(/)', 'management'],
-  manageFamilies: ['management/manage-families', 'manageFamilies'],
-  applications: ['management/applications(/)', 'applications'],
-  organizations: ['management/organizations(/)', 'organizations'],
-  organizationsList: ['management/organizations', 'organizationsList']
+  organizations: ['organizations(/)', 'organizations'],
+  organizationsList: ['organizations', 'organizationsList']
 };
 
 // Cached regular expressions for matching named param parts and splatted
@@ -50,18 +47,15 @@ class Authorizer {
     const routesKeys = _keys(this.appRoutes);
     if (this.session.userHasRole('ROLE_ROOT')) {
       return routesKeys
-        .filter(route => !_includes(adminCrudRoutes.organizationsInfo, route))
         .filter(route => !_includes(adminCrudRoutes.reports, route))
         .filter(route => !_includes(adminCrudRoutes.organizationReports, route))
         .filter(route => !_includes(adminCrudRoutes.organizations, route));
     }
 
     if (this.session.userHasRole('ROLE_HUB_ADMIN')) {
-      return routesKeys
-        .filter(route => !_includes(adminCrudRoutes.organizationsInfo, route))
-        .filter(route => !_includes(adminCrudRoutes.hubs, route))
-        .filter(route => !_includes(adminCrudRoutes.manageFamilies, route))
-        .filter(route => !_includes(adminCrudRoutes.applications, route));
+      return routesKeys.filter(
+        route => !_includes(adminCrudRoutes.hubs, route)
+      );
     }
 
     // APP_ADMIN is a member and admin
@@ -72,16 +66,13 @@ class Authorizer {
         .filter(route => !_includes(adminCrudRoutes.hubs, route))
         .filter(route => !_includes(adminCrudRoutes.organizations, route))
         .filter(route => !_includes(adminCrudRoutes.organizationsList, route))
-        .filter(route => !_includes(adminCrudRoutes.organizationsInfo, route))
-        .filter(route => !_includes(adminCrudRoutes.management, route))
-        .filter(route => !_includes(adminCrudRoutes.manageFamilies, route));
+        .filter(route => !_includes(adminCrudRoutes.management, route));
     }
 
     // regular user
     return routesKeys
       .filter(route => !_includes(adminCrudRoutes.hubs, route))
       .filter(route => !_includes(adminCrudRoutes.organizations, route))
-      .filter(route => !_includes(adminCrudRoutes.organizationsInfo, route))
       .filter(route => !_includes(adminCrudRoutes.management, route))
       .filter(route => !_includes(adminCrudRoutes.users, route))
       .filter(route => !_includes(adminCrudRoutes.reports, route))

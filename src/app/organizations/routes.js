@@ -9,13 +9,10 @@ const organizations = props => {
   const { app } = props;
   const routes = {
     appRoutes: {
-      'management/organizations(/)': 'showOrganizations',
       'organizations(/)': 'showOrganizations',
-      'management/organizations/new': 'newOrganization',
-      'management/organizations/edit/:id': 'editOrganization',
-      'organizations/:id(/:entity)': 'showOrganization',
-      'management/organizations/:id(/:entity)': 'showOrganization'
-      // 'organizations/:id(/:entity)/new': 'showUsersForm'
+      'organizations/new': 'newOrganization',
+      'organizations/edit/:id': 'editOrganization',
+      'organizations/:id(/:entity)': 'showOrganization'
     },
     controller: {
       // paginated organizations

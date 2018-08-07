@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
 import BaseRouter from './baserouter';
-import organizations from '../management/organizations/routes';
+import organizations from '../organizations/routes';
 import surveys from '../surveys/routes';
 import snapshots from '../snapshots/routes';
 import logout from '../logout/routes';

@@ -4,7 +4,7 @@ import 'select2';
 import env from '../../env';
 import Template from './template.hbs';
 import storage from '../storage';
-import OrganizationModel from '../../management/organizations/model';
+import OrganizationModel from '../../organizations/model';
 import SurveyModel from '../../surveys/add/model';
 import FlashesService from '../../flashes/service';
 
@@ -24,7 +24,7 @@ export default Mn.View.extend({
       application_id: '',
       organizations: [],
       survey_id: ''
-    }
+    };
   },
   onRender() {
     const headerItems = storage.getSubHeaderItems();
@@ -67,7 +67,8 @@ export default Mn.View.extend({
     $(selector).append(
       $('<option></option>')
         .attr('value', element.id)
-        .text(element[attr]));
+        .text(element[attr])
+    );
   },
   setCalendarToVariable(varName) {
     let $date = this.$el.find(varName);
@@ -76,7 +77,7 @@ export default Mn.View.extend({
       locale: this.app.getSession().get('locale') || 'es'
     });
   },
-  downloadCsv(event){
+  downloadCsv(event) {
     event.preventDefault();
 
     this.loadFilters();
@@ -92,7 +93,7 @@ export default Mn.View.extend({
       return;
     }
 
-    const a = window.document.createElement("a");
+    const a = window.document.createElement('a');
     a.href = `${env.API}/reports/snapshots/csv?${$.param(this.filters)}`;
     document.body.appendChild(a);
     a.click();
@@ -104,28 +105,43 @@ export default Mn.View.extend({
 
     let organizationArray = [];
     if (this.app.getSession().userHasRole('ROLE_HUB_ADMIN')) {
-      $("#organization").val().forEach(element => {
-        organizationArray.push(parseInt(element, 10));
-      });
+      $('#organization')
+        .val()
+        .forEach(element => {
+          organizationArray.push(parseInt(element, 10));
+        });
     } else if (this.app.getSession().userHasRole('ROLE_APP_ADMIN')) {
       organizationArray.push(this.app.getSession().get('user').organization.id);
     }
 
     this.filters.organizations = organizationArray;
-    this.filters.application_id =
-      this.app.getSession().get('user').application ? this.app.getSession().get('user').application.id : '';
-    this.filters.survey_id = $("#survey").val();
+    this.filters.application_id = this.app.getSession().get('user').application
+      ? this.app.getSession().get('user').application.id
+      : '';
+    this.filters.survey_id = $('#survey').val();
   },
   validate(filters) {
     const errors = [];
     if (!filters.date_from) {
-      errors.push(t('report.snapshot.messages.validation.required', {field: t('report.snapshot.search.date-from')}));
+      errors.push(
+        t('report.snapshot.messages.validation.required', {
+          field: t('report.snapshot.search.date-from')
+        })
+      );
     }
     if (!filters.date_to) {
-      errors.push(t('report.snapshot.messages.validation.required', {field: t('report.snapshot.search.date-to')}));
+      errors.push(
+        t('report.snapshot.messages.validation.required', {
+          field: t('report.snapshot.search.date-to')
+        })
+      );
     }
     if (!filters.survey_id) {
-      errors.push(t('report.snapshot.messages.validation.required', {field: t('report.snapshot.search.survey')}));
+      errors.push(
+        t('report.snapshot.messages.validation.required', {
+          field: t('report.snapshot.search.survey')
+        })
+      );
     }
     return errors;
   }
