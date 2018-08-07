@@ -14,7 +14,6 @@ const adminCrudRoutes = {
     'reports/snapshots/organizations(/)',
     'organizationReports'
   ],
-  management: ['management(/)', 'management'],
   organizations: ['organizations(/)', 'organizations'],
   organizationsList: ['organizations', 'organizationsList']
 };
@@ -65,15 +64,13 @@ class Authorizer {
       return routesKeys
         .filter(route => !_includes(adminCrudRoutes.hubs, route))
         .filter(route => !_includes(adminCrudRoutes.organizations, route))
-        .filter(route => !_includes(adminCrudRoutes.organizationsList, route))
-        .filter(route => !_includes(adminCrudRoutes.management, route));
+        .filter(route => !_includes(adminCrudRoutes.organizationsList, route));
     }
 
     // regular user
     return routesKeys
       .filter(route => !_includes(adminCrudRoutes.hubs, route))
       .filter(route => !_includes(adminCrudRoutes.organizations, route))
-      .filter(route => !_includes(adminCrudRoutes.management, route))
       .filter(route => !_includes(adminCrudRoutes.users, route))
       .filter(route => !_includes(adminCrudRoutes.reports, route))
       .filter(route => !_includes(adminCrudRoutes.organizationReports, route));

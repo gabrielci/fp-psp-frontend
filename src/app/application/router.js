@@ -11,7 +11,7 @@ import termcondpol from '../termcondpol/routes';
 import faqs from '../faqs/routes';
 import snapshotsDraft from '../snapshots_drafts/routes';
 import reports from '../reports/routes';
-import management from '../management/routes';
+
 import map from '../map/routes';
 import users from '../users/routes';
 import hubs from '../hubs/routes';
@@ -30,7 +30,6 @@ const initRouter = props => {
     faqs(props),
     snapshotsDraft(props),
     reports(props),
-    management(props),
     map(props),
     users(props),
     hubs(props)
