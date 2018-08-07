@@ -4,26 +4,7 @@ import ModelFamilyOrganization from './snapshots/by_organization/model';
 
 var ReportsStorage = Storage.extend({
   model: ModelFamilyOrganization,
-  collection: CollectionFamilyOrganization,
-    getSubHeaderItems() {
-      return {
-        navigationItems: [
-          {
-            name: t('report.snapshot.title'),
-            link: `/#reports/snapshots`
-          }
-          // {
-          //   name: t('report.snapshot.title'),
-          //   link: `/#reports/snapshots/organizations`
-          // },
-          // {
-          //   name: t('report.datatable.title'),
-          //   link: `/#reports/datatable`
-          // }
-        ]
-      };
-    }
-  });
+  collection: CollectionFamilyOrganization
+});
 
-
-  export default new ReportsStorage();
+export default new ReportsStorage();

@@ -3,7 +3,6 @@ import $ from 'jquery';
 import 'select2';
 import env from '../../env';
 import Template from './template.hbs';
-import storage from '../storage';
 import OrganizationModel from '../../organizations/model';
 import SurveyModel from '../../surveys/add/model';
 import FlashesService from '../../flashes/service';
@@ -27,12 +26,6 @@ export default Mn.View.extend({
     };
   },
   onRender() {
-    const headerItems = storage.getSubHeaderItems();
-    this.app.updateSubHeader(headerItems);
-    $('.sub-menu-item[href$="reports/snapshots"]')
-      .parent()
-      .addClass('subActive');
-
     this.setCalendarToVariable('#dateFrom');
     this.setCalendarToVariable('#dateTo');
     this.$el.find('#organization').select2({});

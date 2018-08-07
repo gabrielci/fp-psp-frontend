@@ -5,7 +5,6 @@ import 'select2';
 import env from '../../env';
 import utils from '../../utils';
 import Template from './template.hbs';
-import storage from '../storage';
 import OrganizationModel from '../../organizations/model';
 import FlashesService from '../../flashes/service';
 
@@ -27,12 +26,6 @@ export default Mn.View.extend({
     };
   },
   onRender() {
-    const headerItems = storage.getSubHeaderItems();
-    this.app.updateSubHeader(headerItems);
-    $('.sub-menu-item[href$="reports/datatable"]')
-      .parent()
-      .addClass('subActive');
-
     this.setCalendarToVariable('#dateFrom');
     this.setCalendarToVariable('#dateTo');
     this.$el.find('#organization').select2({});
