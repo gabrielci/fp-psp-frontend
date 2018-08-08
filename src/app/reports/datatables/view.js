@@ -1,13 +1,12 @@
 import Mn from 'backbone.marionette';
-import Bn from "backbone";
+import Bn from 'backbone';
 import $ from 'jquery';
 import 'select2';
 import env from '../../env';
-import utils from "../../utils";
+import utils from '../../utils';
 import Template from './template.hbs';
-import storage from "../storage";
-import OrganizationModel from "../../management/organizations/model";
-import FlashesService from "../../flashes/service";
+import OrganizationModel from '../../organizations/model';
+import FlashesService from '../../flashes/service';
 
 export default Mn.View.extend({
   template: Template,
@@ -24,15 +23,9 @@ export default Mn.View.extend({
       family_id: '',
       application_id: '',
       organizations: []
-    }
+    };
   },
   onRender() {
-    const headerItems = storage.getSubHeaderItems();
-    this.app.updateSubHeader(headerItems);
-    $('.sub-menu-item[href$="reports/datatable"]')
-      .parent()
-      .addClass('subActive');
-
     this.setCalendarToVariable('#dateFrom');
     this.setCalendarToVariable('#dateTo');
     this.$el.find('#organization').select2({});
@@ -54,7 +47,8 @@ export default Mn.View.extend({
     $('#organization').append(
       $('<option></option>')
         .attr('value', element.id)
-        .text(element.name));
+        .text(element.name)
+    );
   },
   setCalendarToVariable(varName) {
     let $date = this.$el.find(varName);
@@ -75,16 +69,22 @@ export default Mn.View.extend({
 
       let organizationArray = [];
       if (this.app.getSession().userHasRole('ROLE_HUB_ADMIN')) {
-        $("#organization").val().forEach(element => {
-          organizationArray.push(parseInt(element, 10));
-        });
+        $('#organization')
+          .val()
+          .forEach(element => {
+            organizationArray.push(parseInt(element, 10));
+          });
       } else if (this.app.getSession().userHasRole('ROLE_APP_ADMIN')) {
-        organizationArray.push(this.app.getSession().get('user').organization.id);
+        organizationArray.push(
+          this.app.getSession().get('user').organization.id
+        );
       }
 
       this.filters.organizations = organizationArray;
-      this.filters.application_id =
-                this.app.getSession().get('user').application ? this.app.getSession().get('user').application.id : '';
+      this.filters.application_id = this.app.getSession().get('user')
+        .application
+        ? this.app.getSession().get('user').application.id
+        : '';
 
       let errors = this.validate(this.filters);
       if (errors.length) {
@@ -102,7 +102,10 @@ export default Mn.View.extend({
         model.fetch({
           data: this.filters,
           success(response) {
-            self.buildDatatable(response.toJSON().headers, response.toJSON().rows);
+            self.buildDatatable(
+              response.toJSON().headers,
+              response.toJSON().rows
+            );
           }
         });
       }
@@ -110,45 +113,47 @@ export default Mn.View.extend({
   },
   buildDatatable(headers, rows) {
     // Build table
-    let $table = $('<table id="table" class="display" style="width:100%; font-size: 90%"></table>');
+    let $table = $(
+      '<table id="table" class="display" style="width:100%; font-size: 90%"></table>'
+    );
     $('#datatable-container').html($table);
 
     let $thead = $('<thead></thead>');
     let $tr = $('<tr></tr>');
-    headers.forEach((headerName) => {
+    headers.forEach(headerName => {
       $tr.append(`<th>${headerName}</th>`);
     });
     $thead.append($tr);
     $table.append($thead);
 
     let $tbody = $('<tbody></tbody>');
-    rows.forEach((row) => {
+    rows.forEach(row => {
       $tr = $('<tr></tr>');
-      row.forEach((value) => {
+      row.forEach(value => {
         let $td = $(`<td>${value}</td>`);
-        $td.addClass("text-center");
+        $td.addClass('text-center');
         let color = {
           '0': '#e0504c',
           '1': '#f0cc39',
           '2': '#7cd071',
-          'NONE': '#e7e7e7'
+          NONE: '#e7e7e7'
         };
-        $td.css("background-color", color[value]);
+        $td.css('background-color', color[value]);
         $tr.append($td);
       });
       $tbody.append($tr);
     });
     $table.append($tbody);
 
-    $('#table thead th').each(function () {
+    $('#table thead th').each(function() {
       $(this).append('<input type="text" placeholder="Search"/>');
     });
 
     // Build Datatable
-    let datatable = $('#table').DataTable({"dom": 'lrtip'});
-    datatable.columns().every(function () {
+    let datatable = $('#table').DataTable({ dom: 'lrtip' });
+    datatable.columns().every(function() {
       let that = this;
-      $('input', this.header()).on('keyup change', function () {
+      $('input', this.header()).on('keyup change', function() {
         if (that.search() !== this.value) {
           that.search(this.value).draw();
         }
@@ -159,10 +164,18 @@ export default Mn.View.extend({
   validate(filters) {
     const errors = [];
     if (!filters.date_from) {
-      errors.push(t('report.snapshot.messages.validation.required', {field: t('report.snapshot.search.date-from')}));
+      errors.push(
+        t('report.snapshot.messages.validation.required', {
+          field: t('report.snapshot.search.date-from')
+        })
+      );
     }
     if (!filters.date_to) {
-      errors.push(t('report.snapshot.messages.validation.required', {field: t('report.snapshot.search.date-to')}));
+      errors.push(
+        t('report.snapshot.messages.validation.required', {
+          field: t('report.snapshot.search.date-to')
+        })
+      );
     }
     return errors;
   }
