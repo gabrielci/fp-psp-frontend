@@ -795,56 +795,10 @@ table.dataTable.no-footer {
 .circle-green-small {
   background-color: #7cd071;
 }
-.circle-success-small {
-  background-image: url('/static/images/icon_interv_conseguido.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 35px;
-}
-.circle-failed-small {
-  background-image: url('/static/images/icon_interv_noconseguido.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 35px;
-}
-.intervenion-item {
-  padding: 15px 0;
-  border-bottom: 1px solid #efefef;
-}
-.intervenion-text-content {
-  padding: 0;
-}
 .list-item {
   padding: 0;
 }
 
-#card-interventions {
-  > ul > li {
-    > p {
-      color: #60b4ef;
-      font-family: 'Roboto';
-      font-weight: 400;
-      font-size: 14px;
-    }
-
-    > img {
-      width: 15%;
-    }
-
-    > .pull-right {
-      margin-top: 27px;
-    }
-    > .pull-left {
-      margin-right: 5px;
-    }
-    > .text-muted {
-      color: #788c9a;
-      font-family: 'Helvetica';
-      font-weight: 400;
-      font-size: 12px;
-    }
-  }
-}
 //fin de Home de family - mcespedes
 .list-group-item {
   margin: 10px;
@@ -1216,7 +1170,7 @@ div.fp-form-container {
 .bg-login {
   background-image: linear-gradient(270deg, #599dd1, #95e78b);
   opacity: 0.8;
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
 }
@@ -1243,9 +1197,9 @@ div.fp-form-container {
   transform: translate(-50%, -50%);
   background: #ffffff;
   border-radius: 2px;
-  padding: 0 70px;
+  padding: 0 100px;
   > img {
-    width: 25%;
+    width: 35%;
     margin-top: 45px;
     margin-bottom: 25px;
   }
@@ -1272,6 +1226,22 @@ div.fp-form-container {
     border: none;
     -webkit-box-shadow: none;
     box-shadow: none;
+  }
+  @media (max-width: 768px) {
+    padding: 0 40px;
+    .select-platform-buttons {
+      margin-left: calc(50% - 160px);
+    }
+  }
+}
+.select-platform-buttons {
+  position: absolute;
+  bottom: -100px;
+  margin-left: calc(50% - 220px);
+  .btn {
+    width: 120px;
+    font-size: 13px;
+    border-radius: 2px;
   }
 }
 .input-bg-gray {
@@ -1786,7 +1756,9 @@ img.current-language-flag {
 
 #initInstaBugLink {
   background-color: #599dd1 !important;
-  margin-bottom: 30px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
 }
 
 //MAP

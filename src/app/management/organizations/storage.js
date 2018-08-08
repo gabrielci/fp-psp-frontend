@@ -5,7 +5,7 @@ import Collection from './collection';
 var OrganizationsStorage = Storage.extend({
   model: Model,
   collection: Collection,
-  getSubHeaderItems(model) {    
+  getSubHeaderItems(model) {
     return {
       mainItem: {
         name: model.get('name'),
@@ -20,10 +20,6 @@ var OrganizationsStorage = Storage.extend({
         {
           name: t('subheader.users'),
           link: `/#organizations/${model.get('id')}/users`
-        },
-        {
-          name: t('subheader.indicators'),
-          link: `/#organizations/${model.get('id')}/indicators`
         }
       ]
     };
@@ -42,10 +38,6 @@ var OrganizationsStorage = Storage.extend({
         {
           name: t('subheader.users'),
           link: `/#management/organizations/${model.get('id')}/users`
-        },
-        {
-          name: t('subheader.indicators'),
-          link: `/#management/organizations/${model.get('id')}/indicators`
         }
       ]
     };
@@ -56,8 +48,7 @@ var OrganizationsStorage = Storage.extend({
         name: model.get('name'),
         link: `/#management/organizations/${model.get('id')}`
       },
-      navigationItems: [
-      ]
+      navigationItems: []
     };
   }
 });

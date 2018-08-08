@@ -20,7 +20,11 @@ export default Mn.View.extend({
     'click #btn-recovery': 'sendEmail'
   },
   serializeData() {
-    return { appPlatform: env.platform };
+    return {
+      appPlatform: env.platform,
+      isOnPlatform: window.location.hostname.includes('platform'),
+      isOnDemo: window.location.hostname.includes('demo')
+    };
   },
   initialize(options) {
     this.app = options.app;
@@ -28,40 +32,36 @@ export default Mn.View.extend({
 
     session.fetch();
 
-    if(this.localeConfiguration){
-      session.set('locale',this.localeConfiguration.locale);
-      session.set('messages',this.localeConfiguration.messages);
+    if (this.localeConfiguration) {
+      session.set('locale', this.localeConfiguration.locale);
+      session.set('messages', this.localeConfiguration.messages);
     }
 
     FlashesService.setup({
       container: this.getRegion('flashes')
     });
-
   },
   onRender() {
     setTimeout(() => {
       this.$el.find('#login-username').focus();
-      $("#platform-name").text(env.platform);
-      if(env.platform === 'DEMO') this.$el.find('#link-form').removeClass('hidden') ;
-
+      $('#platform-name').text(env.platform);
+      if (env.platform === 'DEMO')
+        this.$el.find('#link-form').removeClass('hidden');
     }, 0);
-
   },
-  entryEmail(){
-    $(".login").hide();
-    $(".recovery").show();
+  entryEmail() {
+    $('.login').hide();
+    $('.recovery').show();
     this.$el.find('#login-email').focus();
-
   },
 
-  backLogin(){
-    $(".login").show();
-    $(".recovery").hide();
+  backLogin() {
+    $('.login').show();
+    $('.recovery').hide();
     this.$el.find('#login-username').focus();
   },
 
   doLogin(event) {
-
     let self = this;
 
     event.preventDefault();
@@ -102,13 +102,13 @@ export default Mn.View.extend({
       },
       error(xmlHttpRequest, textStatus) {
         if (xmlHttpRequest && xmlHttpRequest.status === 0) {
-          self.showError("danger", t('login.server-connection-error'));
+          self.showError('danger', t('login.server-connection-error'));
           return;
         }
         if (textStatus === 'Unauthorized') {
-          self.showError("warning", t('login.server-unauthorized-error'));
+          self.showError('warning', t('login.server-unauthorized-error'));
         } else {
-          self.showError("warning", t('login.server-wrong-credentials'));
+          self.showError('warning', t('login.server-wrong-credentials'));
           $('#login-username').val('');
           $('#login-password').val('');
           $('#login-username').focus();
@@ -128,30 +128,28 @@ export default Mn.View.extend({
 
     let email = $('#login-email').val();
 
-    let url = `${
-      env.API_PUBLIC
-    }/password/resetPassword?email=${email}`;
+    let url = `${env.API_PUBLIC}/password/resetPassword?email=${email}`;
 
     button.loading();
     $.ajax({
       url,
       type: 'POST',
       success() {
-          self.showError("success", t('login.mail-reset-success', {email}));
-          self.backLogin();
+        self.showError('success', t('login.mail-reset-success', { email }));
+        self.backLogin();
       },
       error(xmlHttpRequest, statusText) {
         if (xmlHttpRequest && xmlHttpRequest.status === 0) {
-          self.showError("danger", t('login.server-connection-error'));
+          self.showError('danger', t('login.server-connection-error'));
           return;
         }
 
         if (statusText === 'Unauthorized') {
-          self.showError("warning", t('login.server-unauthorized-error'));
+          self.showError('warning', t('login.server-unauthorized-error'));
         } else {
           let jsonResponse = JSON.parse(xmlHttpRequest.responseText);
           let message = jsonResponse.message;
-          self.showError("warning", message);
+          self.showError('warning', message);
         }
       },
       complete: () => {
@@ -166,7 +164,7 @@ export default Mn.View.extend({
       .attr('class', `alert alert-${type}`)
       .text(message)
       .show()
-      .fadeTo(2500, 500).slideUp(500, () => $(`#login-alert`).hide());
+      .fadeTo(2500, 500)
+      .slideUp(500, () => $(`#login-alert`).hide());
   }
-
 });
