@@ -21,7 +21,7 @@ const organizations = props => {
       showOrganizations() {
         app.showViewOnRoute(new OrganizationsView({ app }));
       },
-      showOrganizationsByApplication(entity, applicationId) {
+      showOrganizationsByApplication(applicationId) {
         app.showViewOnRoute(new OrganizationsView({ app, applicationId }));
       },
       showOrganization(organizationId, entity) {
