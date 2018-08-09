@@ -28,7 +28,7 @@ export default Mn.View.extend({
     this.app.updateSubHeader(headerItems);
 
     if (this.app.getSession().userHasRole('ROLE_APP_ADMIN')) {
-      $('a[href$="management/organizations"]')
+      $('a[href$="organizations"]')
         .parent()
         .addClass('subActive');
     } else {
