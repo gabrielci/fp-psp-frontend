@@ -160,7 +160,7 @@ export default Mn.View.extend({
           let url = `organizations/${user.organization.id}/users`;
           Bn.history.navigate(url, { trigger: true });
         } else {
-          Bn.history.navigate('management/users', { trigger: true });
+          Bn.history.navigate('users', { trigger: true });
         }
         if (modelIsNew) {
           outcome = 'user.form.add-success';
