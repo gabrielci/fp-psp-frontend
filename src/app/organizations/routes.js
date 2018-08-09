@@ -12,7 +12,8 @@ const organizations = props => {
       'organizations(/)': 'showOrganizations',
       'organizations/new': 'newOrganization',
       'organizations/edit/:id': 'editOrganization',
-      'organizations/:id(/:entity)': 'showOrganization'
+      'organizations/:id(/:entity)': 'showOrganization',
+      'hubs/:id': 'showOrganizationsByApplication'
     },
     controller: {
       // paginated organizations
