@@ -36,7 +36,10 @@ export default Mn.View.extend({
     let headerItems;
     if (this.app.getSession().userHasRole('ROLE_APP_ADMIN')) {
       headerItems = {};
-      this.$el.find('#cancel').attr('href', `#users`);
+      let user = this.app.getSession().get('user');
+      this.$el
+        .find('#cancel')
+        .attr('href', `#organizations/${user.organization.id}/users`);
     }
     this.app.updateSubHeader(headerItems);
   },
@@ -76,7 +79,6 @@ export default Mn.View.extend({
     } else if (session.userHasRole('ROLE_HUB_ADMIN')) {
       roles.push({ role: 'ROLE_APP_ADMIN' });
     } else if (session.userHasRole('ROLE_APP_ADMIN')) {
-      roles.push({ role: 'ROLE_USER' });
       roles.push({ role: 'ROLE_SURVEY_USER' });
     }
 
@@ -153,7 +155,8 @@ export default Mn.View.extend({
       .then(() => {
         button.reset();
         if (session.userHasRole('ROLE_APP_ADMIN')) {
-          let url = `users`;
+          let user = session.get('user');
+          let url = `organizations/${user.organization.id}/users`;
           Bn.history.navigate(url, { trigger: true });
         } else {
           Bn.history.navigate('users', { trigger: true });
