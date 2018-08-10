@@ -83,7 +83,7 @@ export default Mn.View.extend({
       .then(() => {
         button.reset();
         self.addLabels();
-        history.navigate('management/organizations', { trigger: true });
+        history.navigate('organizations', { trigger: true });
         FlashesService.request('add', {
           timeout: 3000,
           type: 'info',
