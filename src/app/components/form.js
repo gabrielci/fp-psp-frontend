@@ -232,11 +232,11 @@ class Form extends Component {
   onSubmit(data) {
     var currentStep = this.state.stepsSchema[this.state.step];
 
-    if (data.formData[currentStep.key] === undefined) {
+    if (!data.formData[currentStep.key]) {
       FlashesService.request('add', {
         timeout: 3000,
         type: 'warning',
-        title: t('schemaForm.select-an-option')
+        title: t('schemaForm.errors.required')
       });
       return;
     }
