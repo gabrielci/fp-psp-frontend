@@ -65,9 +65,11 @@ class Form extends Component {
 
   getAllDependenciesKeys(formDataDependencies){
     let arrayDependenciesKeys = [];
-    Object.keys(formDataDependencies).forEach(key => {
-      arrayDependenciesKeys.push(...Object.keys(formDataDependencies[key]));
-    })
+    if (formDataDependencies) {
+      Object.keys(formDataDependencies).forEach(key => {
+        arrayDependenciesKeys.push(...Object.keys(formDataDependencies[key]));
+      })
+    }
     arrayDependenciesKeys.push('dependencies');
     return arrayDependenciesKeys;
   }
@@ -434,15 +436,20 @@ class Form extends Component {
 
   render() {
 
+    // TODO draft-feature, the following snippet if set after the first Div
+    // returned will show the Save Draft Button, this feature is being removed
+    // till its reworked and fixed.
+    /*
+            {this.checkShowSaveDraft(this.state) ?
+              <button
+                className="btn btn-primary pull-right marginDraft"
+                hidden
+                onClick={() => this.onSaveDraft()}
+              > {t('schemaForm.buttons.save-draft')}
+              </button> : ''}
+    */
     return (
       <div className="col-md-12">
-        {this.checkShowSaveDraft(this.state) ?
-          <button
-            className="btn btn-primary pull-right marginDraft"
-            onClick={() => this.onSaveDraft()}
-          > {t('schemaForm.buttons.save-draft')}
-          </button> : ''}
-
         <article className="card">
           <div className="card-block">
             <div id="new-survey-2" className="row">
