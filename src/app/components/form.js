@@ -232,13 +232,30 @@ class Form extends Component {
   }
 
   onSubmit(data) {
+    let required = this.props.schema.required;
+    let schemaPersonalGroup = this.props.uiSchema['ui:group:personal'];
+    let schemaEconimicsGroup = this.props.uiSchema['ui:group:economics'];
+    let schemaIndicatorsGroup = this.props.uiSchema['ui:group:indicators'];
+
     var currentStep = this.state.stepsSchema[this.state.step];
 
-    if (!data.formData[currentStep.key]) {
+    if ((schemaPersonalGroup.includes(currentStep.key) || schemaEconimicsGroup.includes(currentStep.key))
+          && required.includes(currentStep.key)
+          && data.formData[currentStep.key] === undefined) {
       FlashesService.request('add', {
         timeout: 3000,
         type: 'warning',
         title: t('schemaForm.errors.required')
+      });
+      return;
+    }
+
+    if (schemaIndicatorsGroup.includes(currentStep.key)
+          && data.formData[currentStep.key] === undefined) {
+      FlashesService.request('add', {
+        timeout: 3000,
+        type: 'warning',
+        title: t('schemaForm.select-an-option')
       });
       return;
     }
