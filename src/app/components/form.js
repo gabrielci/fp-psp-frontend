@@ -120,7 +120,7 @@ class Form extends Component {
 
     for (let i = 0; i < stepsSchema.length; i++) {
       if (stepsSchema[i].key === stepKey) {
-        indexActualKey = i + 1;
+        indexActualKey = i;
       }
 
       // Case 3: the field wasn't answered (for example, changed from optional to required).
@@ -338,7 +338,7 @@ class Form extends Component {
       show = false;
     } else {
       for (let i = 0; i < this.props.uiSchema['ui:group:personal'].length; i++) {
-        if (!state.formData[this.props.uiSchema['ui:group:personal'][i]]) {
+        if (this.props.uiSchema['ui:order'][state.step] === this.props.uiSchema['ui:group:personal'][i]) {
           show = false;
         }
       }
@@ -452,21 +452,16 @@ class Form extends Component {
 
 
   render() {
-
-    // TODO draft-feature, the following snippet if set after the first Div
-    // returned will show the Save Draft Button, this feature is being removed
-    // till its reworked and fixed.
-    /*
-            {this.checkShowSaveDraft(this.state) ?
-              <button
-                className="btn btn-primary pull-right marginDraft"
-                hidden
-                onClick={() => this.onSaveDraft()}
-              > {t('schemaForm.buttons.save-draft')}
-              </button> : ''}
-    */
+    // TODO draft-feature
     return (
       <div className="col-md-12">
+        {this.checkShowSaveDraft(this.state) ?
+          <button
+            className="btn btn-primary pull-right marginDraft"
+            onClick={() => this.onSaveDraft()}
+          > {t('schemaForm.buttons.save-draft')}
+          </button> : ''}
+
         <article className="card">
           <div className="card-block">
             <div id="new-survey-2" className="row">
